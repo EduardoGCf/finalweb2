@@ -23,7 +23,7 @@ exports.getRoadById = async (req, res) => {
 };
 
 exports.createRoad = async (req, res) => {
-  const { name, origin_municipality_id, destination_municipality_id, points } = req.body;
+  const { name, origin_municipality_id, destination_municipality_id, points = [] } = req.body
   try {
     const insert = await pool.query(
       'INSERT INTO roads (name, origin_municipality_id, destination_municipality_id, points) VALUES ($1, $2, $3, $4) RETURNING *',
@@ -32,7 +32,7 @@ exports.createRoad = async (req, res) => {
     res.json(insert.rows[0]);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Error interno' });
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
 
